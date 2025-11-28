@@ -33,5 +33,5 @@
   <div class="alert alert-secondary text-center">No past recommendations yet.</div>
 {% endif %}
 
-<a class="btn btn-outline-secondary mt-4" href="{{ url_for('user_dashboard', username=user.username) }}">Back to Dashboard</a>
+<a class="btn btn-outline-secondary mt-4" href="{{ url_for('dashboard.user_dashboard', username=user.username) }}">Back to Dashboard</a>
 {% endblock %}

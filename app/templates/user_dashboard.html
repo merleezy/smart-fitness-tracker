@@ -14,7 +14,7 @@
         <p><strong>Weight:</strong> {{ user.weight }} lbs</p>
         <p><strong>Height:</strong> {{ user.height }} in</p>
         <p><strong>Goal:</strong> {{ user.fitness_goal.title() }}</p>
-        <a href="{{ url_for('edit_profile', username=user.username) }}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+        <a href="{{ url_for('profile.edit_profile', username=user.username) }}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
       </div>
     </div>
   </div>
@@ -46,19 +46,19 @@
           <p class="text-muted small">Generated: {{ recommendation.timestamp.strftime('%b %d, %Y %I:%M:%S %p') }}</p>
 
           <div class="d-flex flex-wrap gap-2 mb-3">
-            <form action="{{ url_for('recommendation_feedback', rec_id=recommendation.id, status='followed') }}" method="post">
+            <form action="{{ url_for('recommendations.recommendation_feedback', rec_id=recommendation.id, status='followed') }}" method="post">
               <button type="submit" class="btn btn-outline-success btn-sm">Followed</button>
             </form>
-            <form action="{{ url_for('recommendation_feedback', rec_id=recommendation.id, status='skipped') }}" method="post">
+            <form action="{{ url_for('recommendations.recommendation_feedback', rec_id=recommendation.id, status='skipped') }}" method="post">
               <button type="submit" class="btn btn-outline-danger btn-sm">Skipped</button>
             </form>
-            <a href="{{ url_for('recommendation_history', username=user.username) }}" class="btn btn-sm btn-outline-info">View Recommendation History</a>
+            <a href="{{ url_for('recommendations.recommendation_history', username=user.username) }}" class="btn btn-sm btn-outline-info">View Recommendation History</a>
           </div>
         {% else %}
           <p>No recommendations yet.</p>
         {% endif %}
 
-        <form action="{{ url_for('create_recommendation', username=user.username) }}" method="post">
+        <form action="{{ url_for('recommendations.create_recommendation', username=user.username) }}" method="post">
           <button type="submit" class="btn btn-outline-success w-100">Generate New Recommendation</button>
         </form>
       </div>
@@ -81,7 +81,7 @@
         {% else %}
           <p>No workouts logged yet.</p>
         {% endif %}
-        <a href="{{ url_for('log_workout', username=user.username) }}" class="btn btn-sm btn-outline-primary mt-3">Log Workout</a>
+        <a href="{{ url_for('workouts.log_workout', username=user.username) }}" class="btn btn-sm btn-outline-primary mt-3">Log Workout</a>
       </div>
     </div>
   </div>
@@ -99,14 +99,14 @@
         {% else %}
           <p>No meals logged yet.</p>
         {% endif %}
-        <a href="{{ url_for('log_meal', username=user.username) }}" class="btn btn-sm btn-outline-primary mt-3">Log Meal</a>
+        <a href="{{ url_for('meals.log_meal', username=user.username) }}" class="btn btn-sm btn-outline-primary mt-3">Log Meal</a>
       </div>
     </div>
   </div>
 </div>
 
 <p class="mt-4">
-  <a class="btn btn-outline-secondary" href="{{ url_for('progress', username=user.username) }}">View Your Progress Summary</a>
+  <a class="btn btn-outline-secondary" href="{{ url_for('progress.progress', username=user.username) }}">View Your Progress Summary</a>
 </p>
 
 {% endblock %}

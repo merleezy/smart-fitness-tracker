@@ -27,7 +27,7 @@
             <td>{{ meal.carbs }}</td>
             <td>{{ meal.fats }}</td>
             <td>
-              <form action="{{ url_for('reuse_meal', meal_id=meal.id) }}" method="get">
+              <form action="{{ url_for('meals.reuse_meal', meal_id=meal.id) }}" method="get">
                 <button class="btn btn-sm btn-outline-primary" type="submit">Use Again</button>
               </form>
             </td>
@@ -41,6 +41,6 @@
   <p class="text-muted">No meals logged yet.</p>
 {% endif %}
 
-<a class="btn btn-outline-secondary mt-4" href="{{ url_for('log_meal', username=user.username) }}">Log a Meal</a>
+<a class="btn btn-outline-secondary mt-4" href="{{ url_for('meals.log_meal', username=user.username) }}">Log a Meal</a>
 
 {% endblock %}
