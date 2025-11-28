@@ -1,6 +1,6 @@
 from flask import url_for
 
-from app import app, db
+from app.extensions import db
 from app.models import Meal, User
 
 
@@ -16,7 +16,7 @@ def create_user(username: str, email: str) -> User:
     return user
 
 
-def test_log_meal_authorized(client):
+def test_log_meal_authorized(client, app):
     with app.app_context():
         user = create_user("alice", "alice@example.com")
         user_id = user.id
@@ -42,11 +42,11 @@ def test_log_meal_authorized(client):
         assert Meal.query.filter_by(user_id=user_id).count() == 1
 
     with app.test_request_context():
-        expected_location = url_for("user_dashboard", username=username)
+        expected_location = url_for("dashboard.user_dashboard", username=username)
     assert response.headers["Location"].endswith(expected_location)
 
 
-def test_log_meal_unauthorized_redirects_with_flash(client):
+def test_log_meal_unauthorized_redirects_with_flash(client, app):
     with app.app_context():
         owner = create_user("bob", "bob@example.com")
         intruder = create_user("charlie", "charlie@example.com")
@@ -63,7 +63,7 @@ def test_log_meal_unauthorized_redirects_with_flash(client):
 
     assert response.status_code == 302
     with app.test_request_context():
-        expected_location = url_for("user_dashboard", username=intruder_username)
+        expected_location = url_for("dashboard.user_dashboard", username=intruder_username)
     assert response.headers["Location"].endswith(expected_location)
 
     with client.session_transaction() as session:

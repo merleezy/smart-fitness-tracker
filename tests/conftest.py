@@ -1,6 +1,5 @@
 import os
 import sys
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -8,31 +7,22 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from app import app, db
+from app import create_app
+from app.config import TestingConfig
+from app.extensions import db
 
 
 @pytest.fixture
-def client():
-    db_fd, db_path = tempfile.mkstemp()
-    os.close(db_fd)
-
-    app.config.update(
-        {
-            "TESTING": True,
-            "WTF_CSRF_ENABLED": False,
-            "SQLALCHEMY_DATABASE_URI": f"sqlite:///{db_path}",
-        }
-    )
-
+def app():
+    app = create_app(TestingConfig)
     with app.app_context():
         db.create_all()
+    yield app
+    with app.app_context():
+        db.session.remove()
+        db.drop_all()
 
-    testing_client = app.test_client()
 
-    try:
-        yield testing_client
-    finally:
-        with app.app_context():
-            db.session.remove()
-            db.drop_all()
-        os.unlink(db_path)
+@pytest.fixture
+def client(app):
+    return app.test_client()

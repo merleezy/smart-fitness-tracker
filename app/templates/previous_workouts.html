@@ -33,6 +33,6 @@
   <p class="text-muted">No workouts logged yet.</p>
 {% endif %}
 
-<a class="btn btn-outline-secondary mt-4" href="{{ url_for('log_workout', username=user.username) }}">← Log a Workout</a>
+<a class="btn btn-outline-secondary mt-4" href="{{ url_for('workouts.log_workout', username=user.username) }}">← Log a Workout</a>
 
 {% endblock %}
