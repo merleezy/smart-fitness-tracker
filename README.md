@@ -1,25 +1,22 @@
-# Fitness Tracker with Personalized Meal & Workout AI
+# Smart Fitness Tracker
 
-A full-stack fitness tracking application built with Flask and SQLite. Users can register, log in, track workouts, and receive personalized AI-based meal and workout recommendations. 
-
+A full-stack fitness tracking application built with Flask and SQLite. Users can register, log in, track workouts, and receive personalized meal and workout recommendations based on biometric algorithms.
 
 ## Features
 
-- User registration & login (Flask-WTF + hashed passwords)
-- Personal dashboards that surface logged workouts, meals, and the latest AI guidance
-- Meal logging with macro tracking, USDA food lookup/autocomplete, and one-click reuse of previous meals
-- AI-generated meal & workout recommendations with history and follow/skip feedback tracking
-- Workout logging with recent history and progress charts alongside weight trend analysis
-- SQLite for local development (PostgreSQL-compatible)
-- Modular Flask structure with templating, form validation, and routing
-- Virtual environment + requirements management
+- **Secure Authentication:** User registration & login implementing Flask-WTF protection and secure password hashing.
+- **Dynamic Dashboards:** Personal hubs that surface logged workouts, nutritional stats, and algorithmic guidance.
+- **Smart Nutrition:** Meal logging with macro tracking, USDA FoodData integration, and historical quick-add.
+- **Algorithmic Recommendations:** Logic-driven meal & workout plans generated from user goals and progress history.
+- **Progress Analytics:** Interactive visualization of weight trends and workout volume using Chart.js.
+- **Infrastructure:** Modular Flask application structure with templating (Jinja2), form validation, and SQLite persistence (PostgreSQL-compatible).
 
-##  Getting Started
+## Getting Started
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/merleezy/fitness-tracker-ai
-cd fitness-tracker-ai
+git clone [https://github.com/merleezy/smart-fitness-tracker](https://github.com/merleezy/smart-fitness-tracker)
+cd smart-fitness-tracker
 ```
 
 ### 2. Set up a virtual environment
