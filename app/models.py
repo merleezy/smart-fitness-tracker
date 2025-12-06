@@ -1,10 +1,9 @@
-from datetime import UTC, datetime
-from app import db
-from app.forms import WorkoutForm
-from flask import render_template, redirect, url_for, flash
+from datetime import datetime, timezone
+from app import db, login
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True, nullable=False)
@@ -22,13 +21,17 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 class Workout(db.Model):
     __tablename__ = 'workouts'
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50))
     duration = db.Column(db.Integer)  # minutes
     calories_burned = db.Column(db.Integer)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class Meal(db.Model):
@@ -49,11 +52,11 @@ class Recommendation(db.Model):
     workout_rec = db.Column(db.String(200))
     trend_note = db.Column(db.String(255))
     followed = db.Column(db.String(10))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
 class WeightLog(db.Model):
     __tablename__ = 'weight_logs'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     weight = db.Column(db.Float, nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))

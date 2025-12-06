@@ -1,11 +1,11 @@
-from functools import wraps
+import os
 from flask import session, flash, redirect, url_for
 from random import choice
 from sqlalchemy import func
 from app.models import Meal, Recommendation, WeightLog
 import requests
 
-API_KEY = "INSERT_HERE"
+API_KEY = os.environ.get("USDA_API_KEY")
 
 def analyze_weight_trend(user_id):
     logs = WeightLog.query.filter_by(user_id=user_id).order_by(WeightLog.date.asc()).all()
@@ -54,15 +54,6 @@ def search_usda_food(query, max_results=5):
         results.append(macros)
 
     return results
-
-def login_required(view_func):
-    @wraps(view_func)
-    def wrapped_view(*args, **kwargs):
-        if 'user_id' not in session:
-            flash("You must be logged in to access that page.", "warning")
-            return redirect(url_for('login'))
-        return view_func(*args, **kwargs)
-    return wrapped_view
 
 def estimate_tdee(user):
     # Harris-Benedict Formula for BMR
@@ -143,6 +134,24 @@ def get_user_feedback_stats(user_id):
                 skipped_workouts.add(workout)
 
     return followed_meals, skipped_meals, followed_workouts, skipped_workouts
+def calculate_progress_stats(user):
+    """Calculates macro averages and totals for the progress page."""
+    meals = Meal.query.filter_by(user_id=user.id).all()
+    
+    if not meals:
+        return None, 0, 0, 0
+
+    avg_macros = {
+        "calories": round(sum(m.calories for m in meals) / len(meals), 1),
+        "protein": round(sum(m.protein for m in meals) / len(meals), 1),
+        "carbs": round(sum(m.carbs for m in meals) / len(meals), 1),
+        "fats": round(sum(m.fats for m in meals) / len(meals), 1),
+    }
+    total_protein = sum(m.protein for m in meals)
+    total_carbs = sum(m.carbs for m in meals)
+    total_fats = sum(m.fats for m in meals)
+    
+    return avg_macros, total_protein, total_carbs, total_fats
 
 def generate_recommendation(user):
     goal = user.fitness_goal
