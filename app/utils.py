@@ -5,7 +5,7 @@ from sqlalchemy import func
 from app.models import Meal, Recommendation, WeightLog
 import requests
 
-API_KEY = "hrPOFFDM31cGKPKhl0uHkTs2gBrMIYVc8oHIUaqk"
+API_KEY = "INSERT_HERE"
 
 def analyze_weight_trend(user_id):
     logs = WeightLog.query.filter_by(user_id=user_id).order_by(WeightLog.date.asc()).all()
