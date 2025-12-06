@@ -43,7 +43,7 @@ Create a `.env` file in the root directory and add your configuration. You can u
 cp .env.example .env
 ```
 
-Make sure to update the `SECRET_KEY` and `USDA_API_KEY` in the `.env` file.
+Make sure to update the `SECRET_KEY` and `USDA_API_KEY` in the `.env` file. (`SECRET_KEY` can be anything)
 
 ### 5. Initialize the database
 
