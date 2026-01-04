@@ -109,7 +109,7 @@ def get_user_feedback_stats(user_id):
             Recommendation.followed,
             func.count().label("count"),
         )
-        .filter(Recommendation.user_id == user_id, Recommendation.followed != None)
+        .filter(Recommendation.user_id == user_id, Recommendation.followed.is_not(None))
         .group_by(Recommendation.meal_rec, Recommendation.followed)
         .all()
     )
@@ -131,7 +131,7 @@ def get_user_feedback_stats(user_id):
             Recommendation.followed,
             func.count().label("count"),
         )
-        .filter(Recommendation.user_id == user_id, Recommendation.followed != None)
+        .filter(Recommendation.user_id == user_id, Recommendation.followed.is_not(None))
         .group_by(Recommendation.workout_rec, Recommendation.followed)
         .all()
     )
@@ -495,11 +495,7 @@ def generate_recommendation(user):
                 "Egg White Omelet with Avocado + Spinach",
                 "Chicken + Tofu Stir-Fry with Edamame and Quinoa",
             ]
-            trend_note = (
-                trend_note
-                or ""
-                + " Protein intake is low — adding high-protein meals to support your goal."
-            )
+            trend_note += " Protein intake is low — adding high-protein meals to support your goal."
 
         # Case 2: User is trying to cut but consuming more than TDEE
         if user.fitness_goal == "cutting" and macros["calories"] > tdee * (
@@ -510,10 +506,8 @@ def generate_recommendation(user):
                 "Zucchini Noodles with Grilled Turkey & Pesto",
                 "Grilled Cod or Tilapia with Steamed Broccoli & Cauliflower Mash",
             ]
-            trend_note = (
-                trend_note
-                or ""
-                + " Your average calorie intake is above your estimated needs. "
+            trend_note += (
+                " Your average calorie intake is above your estimated needs. "
                 "Try lighter, lower-carb meals to stay in a deficit."
             )
 

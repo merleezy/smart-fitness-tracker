@@ -1,11 +1,18 @@
+from typing import ClassVar
 from datetime import datetime, timezone
-from app import db, login
+from flask_sqlalchemy.query import Query
+from app import db, login  # type: ignore
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
+    query: ClassVar[Query]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True, nullable=False)
     name = db.Column(db.String(64))
@@ -30,6 +37,11 @@ def load_user(id):
 
 class Workout(db.Model):
     __tablename__ = "workouts"
+    query: ClassVar[Query]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50))
     duration = db.Column(db.Integer)  # minutes
@@ -40,6 +52,11 @@ class Workout(db.Model):
 
 class Meal(db.Model):
     __tablename__ = "meals"
+    query: ClassVar[Query]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     calories = db.Column(db.Float)
@@ -51,6 +68,11 @@ class Meal(db.Model):
 
 class Recommendation(db.Model):
     __tablename__ = "ai_recommendations"
+    query: ClassVar[Query]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     meal_rec = db.Column(db.String(200))
@@ -62,6 +84,11 @@ class Recommendation(db.Model):
 
 class WeightLog(db.Model):
     __tablename__ = "weight_logs"
+    query: ClassVar[Query]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     weight = db.Column(db.Float, nullable=False)

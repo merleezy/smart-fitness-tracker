@@ -1,0 +1,7 @@
+{
+  "include": ["app", "tests"],
+  "exclude": ["**/node_modules", "**/__pycache__", ".venv", "env"],
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "reportGeneralTypeIssues": true
+}

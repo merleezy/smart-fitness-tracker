@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from flask import jsonify, request, redirect, url_for, render_template, flash, session
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
-from app import app, db
+from app import app, db  # type: ignore
 from app.models import Meal, User, WeightLog, Workout, Recommendation
 from app.forms import (
     MealForm,
@@ -141,7 +141,7 @@ def login():
         return redirect(url_for("user_dashboard"))
     form = LoginForm()
     if form.validate_on_submit():
-        identifier = form.email.data.strip()
+        identifier = (form.email.data or "").strip()
         user = User.query.filter(
             or_(User.email == identifier, User.username == identifier)
         ).first()
@@ -299,7 +299,8 @@ def recommendation_feedback(rec_id, status):
 
 @app.route("/search_food", methods=["POST"])
 def search_food():
-    query = request.json.get("query")
+    data = request.get_json()
+    query = data.get("query") if data else None
     if not query:
         return jsonify({"error": "No query provided"}), 400
 
