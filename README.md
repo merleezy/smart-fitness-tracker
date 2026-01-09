@@ -2,15 +2,6 @@
 
 A full-stack fitness tracking application built with Flask and SQLite. Users can register, log in, track workouts, and receive personalized meal and workout recommendations based on biometric algorithms.
 
-## Features
-
-- **Secure Authentication:** User registration & login implementing Flask-WTF protection and secure password hashing.
-- **Dynamic Dashboards:** Personal hubs that surface logged workouts, nutritional stats, and algorithmic guidance.
-- **Smart Nutrition:** Meal logging with macro tracking, USDA FoodData integration, and historical quick-add.
-- **Algorithmic Recommendations:** Logic-driven meal & workout plans generated from user goals and progress history.
-- **Progress Analytics:** Interactive visualization of weight trends and workout volume using Chart.js.
-- **Infrastructure:** Modular Flask application structure with templating (Jinja2), form validation, and SQLite persistence (PostgreSQL-compatible).
-
 ## Getting Started
 
 ### 1. Clone the repository
