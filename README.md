@@ -1,6 +1,6 @@
 # Smart Fitness Tracker
 
-A full-stack fitness tracking application built with Flask and SQLite. Users can register, log in, track workouts, and receive personalized meal and workout recommendations based on biometric algorithms.
+A full-stack fitness tracking application built with Flask and SQLite. Users can register, log in, track workouts, and receive personalized meal and workout recommendations based on a custom recommendation algorithm.
 
 ## Getting Started
 
